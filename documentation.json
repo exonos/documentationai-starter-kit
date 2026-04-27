@@ -120,7 +120,7 @@
       }
     ]
   },
-  "template": "atlas",
+  "template": "classic",
   "logo-dark": "https://blob-cdn.documentation.ai/org-76415c70-871e-4c25-90e4-f1f6599bb4ce/doc-681977e2-d34d-4d90-b6b7-95103d9ef241/1777264466304-k7jm65vz68-logo-text-white.png?fm=auto&auto=compress%2Cformat",
   "logo-light": "https://blob-cdn.documentation.ai/org-76415c70-871e-4c25-90e4-f1f6599bb4ce/doc-681977e2-d34d-4d90-b6b7-95103d9ef241/1777264480774-uvq229xt748-logo-text.png?fm=auto&auto=compress%2Cformat",
   "favicon": "https://blob-cdn.documentation.ai/org-76415c70-871e-4c25-90e4-f1f6599bb4ce/doc-681977e2-d34d-4d90-b6b7-95103d9ef241/1777264494470-i4z48flwkj-logo-email.png?fm=auto&auto=compress%2Cformat"
