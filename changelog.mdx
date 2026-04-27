@@ -1,0 +1,143 @@
+---
+title: Changelog
+description: Track the latest updates, new features, and improvements to the apimarket.mx platform and APIs.
+---
+
+## Recent Updates
+
+Stay informed about changes to apimarket.mx APIs and platform. Check this page regularly for new features, bug fixes, and deprecations affecting your integration.
+
+<Callout kind="info">
+  Subscribe to our RSS feed or join the apimarket.mx Discord for real-time update notifications.
+</Callout>
+
+<Update label="2024-10-15" description="v1.2.0" tags={["feature", "improvement"]}>
+
+## New Features
+
+- Added new endpoint `/v1/validations/idse` for streamlined IDSE worker registration.
+- Introduced bulk validation support in API Mexico, processing up to 100 records per request.
+- Enhanced dashboard with real-time usage analytics and API key management.
+
+## Improvements
+
+- Reduced average response time by 40% for high-volume validation requests.
+- Added support for additional Mexican legal registries (SAT, RFC, CURP).
+
+## Bug Fixes
+
+- Fixed intermittent 500 errors on `/v1/validations/curp` endpoint.
+- Resolved token expiration issues during long-running bulk operations.
+
+</Update>
+
+<Update label="2024-09-20" description="v1.1.0" tags={["feature", "bugfix"]}>
+
+## New Features
+
+- Launched IDSE Pro API with endpoints for worker onboarding and compliance checks.
+- Webhook support for validation results, enabling asynchronous notifications.
+
+## Improvements
+
+- Updated rate limits to 5000 requests per minute for enterprise plans.
+- Improved error messages with detailed Mexican registry-specific codes.
+
+## Bug Fixes
+
+- Corrected RFC validation logic for recent SAT format changes.
+- Fixed pagination issues in list endpoints.
+
+<Callout kind="alert">
+  The legacy `/v0/validations` endpoint is deprecated. Migrate to `/v1/validations` before 2024-12-01.
+</Callout>
+
+</Update>
+
+<Update label="2024-08-10" description="v1.0.0" tags={["breaking", "feature"]}>
+
+## Initial Release
+
+- Core API Mexico validation endpoints for CURP, RFC, and 15+ legal registries.
+- Authentication via API keys with Bearer token support.
+- Dashboard for monitoring API usage and generating reports.
+
+## Breaking Changes
+
+- Switched from HMAC signatures to Bearer tokens for authentication.
+
+</Update>
+
+## Upgrade Guide
+
+Follow these steps to upgrade your integration to the latest version.
+
+<Steps>
+  <Step title="Review Changelog" icon="book-open">
+
+  Identify breaking changes and deprecations relevant to your usage.
+
+  </Step>
+  <Step title="Update Code" icon="code">
+
+  <CodeGroup tabs="JavaScript,Python">
+  ````javascript
+  // Old v0 endpoint
+  const response = await fetch('https://api.apimarket.mx/v0/validations/curp', {
+    headers: { 'Authorization': `Bearer ${YOUR_API_KEY}` }
+  });
+  ````
+
+  ````python
+  import requests
+  response = requests.get('https://api.apimarket.mx/v1/validations/curp', headers={
+      'Authorization': f'Bearer {YOUR_API_KEY}'
+  })
+  ````
+  </CodeGroup>
+
+  </Step>
+  <Step title="Test Integration" icon="play-circle">
+
+  Run your test suite against staging environment at `https://staging.api.apimarket.mx`.
+
+  </Step>
+  <Step title="Deploy" icon="rocket">
+
+  Monitor logs for the first 24 hours post-deployment.
+
+  </Step>
+</Steps>
+
+## Explore Products
+
+<Columns cols={2}>
+  <Card title="API Mexico" icon="database" href="https://apimarket.mx/docs/api-mexico">
+    Validate clients across 15+ Mexican legal registries.
+  </Card>
+  <Card title="IDSE Pro" icon="users" href="https://apimarket.mx/idse-pro">
+    Simplify IDSE worker registration with dedicated APIs.
+  </Card>
+</Columns>
+
+<Expandable title="Migration Examples" default-open="false">
+
+For detailed migration scripts:
+
+```javascript
+// Example: Bulk validation
+const bulkData = [
+  { curp: 'CURP123456789MX99', rfc: 'ABCD123456EFG' },
+  { curp: 'CURP987654321MX00', rfc: 'WXYZ987654HNI' }
+];
+const response = await fetch('https://api.apimarket.mx/v1/validations/bulk', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${YOUR_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(bulkData)
+});
+```
+
+</Expandable>

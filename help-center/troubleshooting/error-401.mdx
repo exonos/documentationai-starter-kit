@@ -1,0 +1,30 @@
+---
+title: Error 401: No autorizado
+description: Resuelve el error 401 al usar las APIs de apimarket.mx.
+---
+
+## Síntomas
+
+- Respuesta: "401 Unauthorized"
+- Acceso denegado a cualquier endpoint
+
+## Causas
+
+- API Key incorrecta o vencida
+- Falta el header Authorization
+
+## Solución
+
+<Steps>
+  <Step title="Verifica tu API Key">
+    ````bash
+    cat ~/.apimarket_key
+    # Confirma que la clave es válida y vigente.
+    ````
+  </Step>
+  <Step title="Incluye el header correcto">
+    ````bash
+    curl -H "Authorization: Bearer TU_API_KEY" https://api.apimarket.mx/v1/endpoint
+    ````
+  </Step>
+</Steps>

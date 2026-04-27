@@ -1,0 +1,192 @@
+---
+title: Authentication and Security
+description: Secure your API interactions with authentication methods, including API keys, and understand security best practices.
+---
+
+## Overview
+
+apimarket.mx provides secure access to Mexican government data validation APIs through API keys. You generate keys from your dashboard and include them in requests to authenticate. This ensures only authorized users access endpoints like CURP validation or RFC lookup.
+
+All requests require authentication via the `Authorization` header. API keys are the primary method, with optional session tokens for advanced use cases.
+
+<Callout kind="info">
+
+Obtain your API key from the [apimarket.mx dashboard](https://apimarket.mx/dashboard) after signing up. Store it securely and never expose it in client-side code.
+
+</Callout>
+
+## Generating and Managing API Keys
+
+Follow these steps to create and manage your API key.
+
+<Steps>
+  <Step title="Sign Up" icon="user-plus">
+    Create an account at [apimarket.mx/signing](https://apimarket.mx/signing).
+  </Step>
+  <Step title="Access Dashboard" icon="activity">
+    Log in and navigate to the API Keys section.
+  </Step>
+  <Step title="Generate Key" icon="key">
+    Click "Generate New Key". Copy the key immediately—it displays only once.
+  </Step>
+  <Step title="Set Permissions" icon="settings">
+    Assign scopes like `validations:read` for Mexico API access.
+  </Step>
+  <Step title="Regenerate or Revoke" icon="refresh-cw">
+    Use dashboard controls to rotate or delete keys as needed.
+  </Step>
+</Steps>
+
+## Authentication Methods
+
+Choose the method that fits your integration.
+
+<Tabs>
+  <Tab title="API Key" icon="key">
+    Use your API key in the `Authorization` header as `ApiKey {your-key}`.
+
+    <ParamField header="Authorization" param-type="string" required="true">
+      Format: `ApiKey your-apimarket-key-here`. Required for all endpoints.
+    </ParamField>
+
+    <CodeGroup tabs="JavaScript,Python,cURL">
+      ```javascript
+      const response = await fetch('https://api.example.com/v1/mexico/curp-validate', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'ApiKey your-apimarket-key-here',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ curp: 'GAAA000101HDFRLL09' })
+      });
+      ```
+      ```python
+      import requests
+
+      headers = {
+          'Authorization': 'ApiKey your-apimarket-key-here',
+          'Content-Type': 'application/json'
+      }
+      response = requests.post(
+          'https://api.example.com/v1/mexico/curp-validate',
+          json={'curp': 'GAAA000101HDFRLL09'},
+          headers=headers
+      )
+      ```
+      ```bash
+      curl -X POST https://api.example.com/v1/mexico/curp-validate \
+        -H "Authorization: ApiKey your-apimarket-key-here" \
+        -H "Content-Type: application/json" \
+        -d '{"curp": "GAAA000101HDFRLL09"}'
+      ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="Bearer Token" icon="shield">
+    For OAuth flows, exchange your API key for a short-lived bearer token.
+
+    <ParamField header="Authorization" param-type="string" required="true">
+      Format: `Bearer {token}`. Tokens expire in 1 hour.
+    </ParamField>
+  </Tab>
+</Tabs>
+
+## API Request Example
+
+See a complete authenticated request.
+
+<Request tabs="JavaScript,cURL" show-lines="true">
+  ```javascript
+  const response = await fetch('https://api.example.com/v1/mexico/rfc-validate', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'ApiKey your-apimarket-key-here',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      rfc: 'GAAA000101HDF',
+      name: 'Juan Pérez García'
+    })
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+  }
+  ```
+  ```bash
+  curl -X POST https://api.example.com/v1/mexico/rfc-validate \
+    -H "Authorization: ApiKey your-apimarket-key-here" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "rfc": "GAAA000101HDF",
+      "name": "Juan Pérez García"
+    }'
+  ```
+</Request>
+
+<Response tabs="200">
+  ```json
+  {
+    "success": true,
+    "valid": true,
+    "data": {
+      "rfc": "GAAA000101HDF",
+      "name": "Juan Pérez García",
+      "curp": "GAPJ870909HDFRLL08"
+    }
+  }
+  ```
+</Response>
+
+## Security Best Practices
+
+Protect your API keys and data.
+
+<Callout kind="alert">
+
+- Never commit API keys to version control or expose them in frontend code.
+- Rotate keys regularly via the dashboard.
+- Use environment variables: `process.env.API_KEY` in Node.js.
+- Monitor usage in the apimarket.mx dashboard for anomalies.
+- Comply with Mexican data protection laws (LFPDPPP) for personal data.
+
+</Callout>
+
+## Handling Tokens and Sessions
+
+<Expandable title="Advanced Token Management" default-open="false">
+
+Manage session tokens for long-running integrations.
+
+1. Exchange API key for token:
+
+   ```bash
+   curl -X POST https://api.example.com/v1/auth/token \
+     -H "Authorization: ApiKey your-apimarket-key-here" \
+     -d '{"scope": "validations:read"}'
+   ```
+
+2. Response includes `access_token` and `expires_in`.
+
+3. Refresh tokens before expiry to avoid interruptions.
+
+Use secure storage like AWS Secrets Manager or HashiCorp Vault for production.
+
+</Expandable>
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart" icon="book-open" href="/quickstart">
+    Run your first validation request.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Explore all endpoints and parameters.
+  </Card>
+  <Card title="Configuration" icon="settings" href="/configuration">
+    Customize rate limits and webhooks.
+  </Card>
+  <Card title="Changelog" icon="git-branch" href="/changelog">
+    Stay updated with latest releases.
+  </Card>
+</Columns>

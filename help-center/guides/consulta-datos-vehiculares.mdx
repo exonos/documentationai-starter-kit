@@ -1,0 +1,27 @@
+---
+title: Consultar Datos Vehiculares
+description: Guía rápida para consultar datos de vehículos mediante la API vehicular.
+---
+
+## Consulta rápida usando la API de vehículos
+
+<Steps>
+  <Step title="Obtén una API Key activa">
+    Genera desde tu perfil en [apimarket.mx](https://apimarket.mx).
+  </Step>
+  <Step title="Realiza la consulta">
+    ````bash
+    curl -H "Authorization: Bearer TU_API_KEY" \
+         "https://api.apimarket.mx/v1/vehiculos?placa=ABC123"
+    ````
+  </Step>
+  <Step title="Procesa la respuesta">
+    ````json
+    {
+      "marca": "Nissan",
+      "modelo": "2021",
+      "estatus": "Activo"
+    }
+    ````
+  </Step>
+</Steps>
